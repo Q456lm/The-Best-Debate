@@ -48,34 +48,42 @@ public class BoohbahMessageDecryptor {
     }
     
     public static void main(String[] args) {
-        // TODO: Declare variables for file paths
-        // String inputFile = ...
-        // String outputFile = ...
+        //Declares variables for file paths
+        String inputFile = "encrypted_message.txt";
+        String outputFile = "decrypted_message.txt";
         
-        // TODO: Try-with-resources block to handle IOException
-        // Include file operations within the try parentheses so resources are automatically closed
-        // try (... ) {
+        //Try Block for error checking + defines file
+        try (BufferedReader file = new BufferedReader (new FileReader(inputFile))) {
         
-            // TODO: Read the encrypted message from the file (one line)
-            // String encryptedMessage = ...
+            //Reads the encrypted message from the file (one line)
+            String encryptedMessage = file.readLine();
             
-            // TODO: Try different shift values (0-25) until you find a decryption that makes sense
-            // Loop through possible shift values and print each decryption attempt
-            // When you find one that looks like a real message, note the shift value!
+            //Goes through values 0-25, and runs encrypted message with that value, then prints the result.
+            for (int i = 0; i <= 25; i++){
+                System.out.println(decrypt(encryptedMessage,i));
+            }
             
-            // Once you've identified the correct shift value, use it to decrypt the message
-            // int correctShift = ...;
-            // String decryptedMessage = decrypt(encryptedMessage, correctShift);
+            //Identifies the correct shift value, and uses it to decrypt the message
+            int correctShift = 3;
+            String decryptedMessage = decrypt(encryptedMessage, correctShift);
             
-            // TODO: Write the decrypted message to the output file
-            // ...
+            FileWriter writer = new FileWriter(outputFile);
+            writer.write(decryptedMessage);
+            writer.close();
             
-            // TODO: Display results to console
-            // System.out.println(...);
+            //Displays results to console
+            System.out.println("\n\n\n");
+            System.out.println("=== BOOHBAH INTELLIGENCE REPORT ===");
+            System.out.println("Encrypted message: "+encryptedMessage);
+            System.out.println("Decrypted message: "+decryptedMessage);
+            System.out.println("Decrypted message saved to: "+outputFile);
+            System.out.println("STATUS: THREAT IDENTIFIED!");
+
             
-        // } catch (IOException e) {
-            // TODO: Handle the IOException appropriately
-            // ...
-        // }
+        }catch (FileNotFoundException e){
+            System.out.println("Unable to find file: "+inputFile);
+        } catch (IOException e) {
+            System.out.println("Something is wrong with the files");
+        }
     }
 }
